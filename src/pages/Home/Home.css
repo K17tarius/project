@@ -1,0 +1,47 @@
+.bannerDiv{
+    height: 400px;
+    background-color:#D89A9A;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    padding: 10px
+}
+
+.bannerDiv div{
+    text-align: center;
+}
+
+.bannerDivMainText{
+    font-size: 34px;
+    font-family: serif;
+    font-weight: 600;
+    line-height: 40px;
+    text-align: center;
+}
+
+.bannerDivSubText{
+    font-size: 24px;
+    margin-top: 20px;
+    font-family: serif;
+    font-weight: 400;
+    text-align: center;
+    line-height: 25px;
+}
+
+.bannerDivButton{
+    background-color: black;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+}
+
+.bannerDivButton{
+    background-color: black;
+    border-radius: 50px;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+}

@@ -1,0 +1,20 @@
+.holder{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 30px auto 30px;
+    column-gap: 5px;
+}
+
+.holder button{
+    display: inline-block;
+    width: 100%;
+    border: none;
+    background: #ff7f00;
+    color: white;
+    font-weight: bold
+}
+
+.holder input{
+    display: inline-block;
+    width: 100%;
+}

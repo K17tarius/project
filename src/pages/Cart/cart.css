@@ -1,0 +1,24 @@
+.card {
+    height: 100%;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .btn-outline-secondary {
+    color: #008cba;
+    border-color: #008cba;
+  }
+  
+  .btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #008cba;
+    border-color: #008cba;
+  }

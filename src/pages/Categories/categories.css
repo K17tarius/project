@@ -1,0 +1,15 @@
+.card{
+    width: 300px;
+    height: 300px;
+    margin-bottom: 50px;
+}
+
+.card-title{
+    text-align: center;
+    color: black;
+
+}
+/* Arjun please help me, underline nhi hatra */
+.card-body{
+    text-decoration: none;
+}

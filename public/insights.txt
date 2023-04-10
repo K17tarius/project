@@ -1,0 +1,6 @@
+1. Vendor needs to be connected with the registration database.
+2. Cart page needs to be connected with the shop page.
+3. Checkout options(payments api)
+4. Discount coupons for regular customers.
+5. Analytics Report 
+6. 

@@ -1,0 +1,28 @@
+.searchbar{
+    height: 100%;
+    border: none;
+    padding: 5px;
+}
+
+.logo{
+    width: 60px;
+    margin-right: 10px;
+}
+
+.searchbar:focus {
+    outline: none;
+}
+
+.searchbarHolder{
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+.searchbarBtn{
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 7px;
+    border-left: solid 2px #ccc;
+}
