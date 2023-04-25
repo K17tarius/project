@@ -73,7 +73,7 @@ const CheckoutForm = () => {
       //`Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
-        return_url: "/",
+        return_url: "http://localhost:3000",
       },
     });
 
@@ -81,6 +81,7 @@ const CheckoutForm = () => {
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
       showToastMessage(result.error.message)
+      console.log(result.error.message);
 
     } else {
     showToastMessage('Payment Complete!');
