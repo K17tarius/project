@@ -3,16 +3,61 @@ import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import Cookies from "universal-cookie";
 import "./cart.css";
 import { Toast, ToastContainer } from "react-bootstrap";
-import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import CheckoutForm from './CheckoutForm';
+
+const stripePromise = loadStripe('pk_test_51MuzrbSA5uEUTqOaw7V8Y4lyLCyAdL5t8YeGuQobsnfO8o4Utdg4g5t1sHMUTw5R8xKLaaqIqMG6oRAyjuSwTiC0006DdZ96OA');
+
 
 function ShoppingCart(){
 
   const cookies = new Cookies();
   var [cart, setCart] = useState([]);
   var [total, setTotal] = useState(0);
+  var [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  var [showPayment, setShowPayment] = useState(false);
+  var [paymentOptions, setPaymentOptions] = useState({
+    clientSecret : ""
+  })
+
+  function setStripe(){
+    setLoading(true);
+    const sk = 'sk_test_51MuzrbSA5uEUTqOaRkIeihMZaBgteIXzXpXEhAMAfsLZPfRoW0qsvaaRyqywamxnEU9TE03b5U8lzrZ8yHQIu8D000zCBh2NUt'
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Authorization", "Bearer " + sk);
+
+    var urlencoded = new URLSearchParams();
+    // Hardcoded to hundred for testing //
+    urlencoded.append("amount", "100");
+    urlencoded.append("currency", "inr");
+    urlencoded.append("payment_method_types[]", "card");
+
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'follow'
+    };
+
+    fetch("https://api.stripe.com/v1/payment_intents", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      var secret = result['client_secret']
+      console.log(secret);
+      setLoading(false);
+      setPaymentOptions({
+        clientSecret : secret
+      });
+      setShowPayment(true);
+    })
+    .catch(error => {console.log('error', error); setLoading(false); showToastMessage('Error in Stripe!')});
+  }
+
 
 
   useEffect(()=>{
@@ -31,46 +76,9 @@ function ShoppingCart(){
 
     if(cookies.get('uid')){
 
-    var itemIds = [];
-    var count = {}
-    for(var i=0;i<cart.length;i++){
-      itemIds.push(cart[i].id)
-      count[cart[i].id] = cart[i].count
-    }
-
-    console.log(itemIds)
-    console.log(count)
-
-
-    getDocs(collection(db, "items")).then((data)=>{
-      data.forEach((docItem) => {
-        if(itemIds.includes(docItem.id)){
-          var updatedCount = parseInt(docItem.data().itemQuantity) - count[docItem.id];
-          console.log(updatedCount)
-          updateDoc(doc(db, "items", docItem.id), {"itemQuantity" : updatedCount.toString()}).then((data)=>{
-            console.log(data);
-          })
-        }
-      });
-    });
-
-    const cookies = new Cookies();
-    const docRef = addDoc(collection(db, "orders"), {
-        addedBy : cookies.get('uid'),
-        itemAddedOn : new Date(),
-        items : cart
-
-    }).then((data)=>{
-
-      console.log(data)
-      showToastMessage('Bought product successfully!');
-      setCart([])
-      setTotal(0);
-      cookies.set('cart', []);
-      window.setTimeout(()=>{
-        window.location.href = '/orders';
-      },2500)
-    })
+      
+    setStripe();
+ 
   }
   else{
     showToastMessage('Login to purchase!');
@@ -144,6 +152,17 @@ function ShoppingCart(){
               Buy
             </Button>
             }
+          </Col>
+        </Row>
+        <br></br>
+        <Row>
+          <Col>
+          {loading == true && <span>Loading...</span>}
+          {showPayment && <div className="paymentHolder">
+            <Elements stripe={stripePromise} options={paymentOptions}>
+              <CheckoutForm />
+            </Elements>
+          </div>}
           </Col>
         </Row>
       </Container>
