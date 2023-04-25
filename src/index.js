@@ -17,6 +17,7 @@ import VendorLoginPage from "./pages/VLogin/vendorlogin";
 import CategoriesPage from "./pages/Categories/categories";
 import AnalyticsReport from "./pages/Analytics/analytics";
 import Orders from "./pages/Orders/orders";
+import Success from "./pages/PaymentSuccess/success";
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="analytics" element={<AnalyticsReport />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="success" element={<Success />} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Route>
       </Routes>
